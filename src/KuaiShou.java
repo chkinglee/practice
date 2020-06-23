@@ -10,10 +10,48 @@ public class KuaiShou {
 
         String s = "abcdabc";
         numberOfSubStrings(s);
+
+        int[] n = {43, 27, 4, 415};
+        minSumOfIntArray(n);
+    }
+
+    /**
+     * 输入一个正整数数组如[43,27,4,415]，将数组中的所有数按照字符串进行拼接，输出拼接后对应数值最小的那个字符串
+     * 例如 27415434 是所有组合中最小的那个数
+     *
+     * @param n
+     */
+    private static void minSumOfIntArray(int[] n) {
+        // 创建一个字符串数组，用于存数字转换后的字符串
+        String[] s = new String[n.length];
+        for (int i = 0; i < s.length; i++) {
+            s[i] = String.valueOf(n[i]);
+        }
+        // 核心思路：
+        // 每两个字符串有两种拼接方式：左右4327、右左2743
+        // 判断两个新字符串谁大谁小，如果左右>右左，说明两个数字需要进行调换
+        // 本质：
+        // 冒泡排序的变形（各种排序算法理论上应该都行）
+        for (int i = 0; i < s.length - 1; i++) {
+            for (int j = 0; j < s.length - i - 1; j++) {
+                // 仅判断规则需要做改变，其他的都是冒泡排序的逻辑
+                if ((s[j] + s[j + 1]).compareTo(s[j + 1] + s[j]) > 0) {
+                    String tmp = s[j];
+                    s[j] = s[j + 1];
+                    s[j + 1] = tmp;
+                }
+            }
+        }
+        StringBuilder result = new StringBuilder();
+        for (String s1 : s) {
+            result.append(s1);
+        }
+        System.out.println(result);
     }
 
     /**
      * 输入一个字符串如"abcdabc"  找出所有长度至少为2的子串，并统计子串出现次数，倒序输出所有子串的出现次数
+     * 例如 abc出现2次，da出现1次
      *
      * @param s
      */
@@ -73,5 +111,6 @@ public class KuaiShou {
         System.out.println(stringList.toString());
 
     }
+
 
 }
